@@ -1,0 +1,8 @@
+local.settings.json
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+.python_packages/
+deploy.zip
+teams-manifest/dist/

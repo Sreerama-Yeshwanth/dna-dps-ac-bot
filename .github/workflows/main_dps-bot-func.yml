@@ -1,0 +1,55 @@
+# Docs for the Azure Web Apps Deploy action: https://github.com/azure/functions-action
+# More GitHub Actions for Azure: https://github.com/Azure/actions
+# More info on Python, GitHub Actions, and Azure Functions: https://aka.ms/python-webapps-actions
+
+name: Build and deploy Python project to Azure Function App - dps-bot-func
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+env:
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: '.' # set this to the path to your web app project, defaults to the repository root
+  PYTHON_VERSION: '3.11'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write #This is required for requesting the JWT
+      contents: read #This is required for actions/checkout
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python version
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Install dependencies into Function package
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install --target=".python_packages/lib/site-packages" -r requirements.txt
+
+      - name: Zip Function package
+        run: zip -r release.zip function_app.py host.json requirements.txt src .python_packages
+
+      - name: Login to Azure
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_5226F82D919949A8B6A8D303B4CF5BB6 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_7A0807EEBE494042B8A30C1D181A4A59 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_B7AC6056F04C4FEFAC7267C5FE14B570 }}
+
+      - name: 'Deploy to Azure Functions'
+        uses: Azure/functions-action@v1
+        id: deploy-to-function
+        with:
+          app-name: 'dps-bot-func'
+          slot-name: 'Production'
+          package: release.zip
+          
