@@ -1,0 +1,11 @@
+local.settings.json
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+.git/
+.gitignore
+README.md
+PILOT_SETUP_GUIDE.md
+teams-manifest/
+scripts/
