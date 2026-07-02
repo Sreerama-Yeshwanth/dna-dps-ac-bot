@@ -1,7 +1,3 @@
-# Docs for the Azure Web Apps Deploy action: https://github.com/azure/functions-action
-# More GitHub Actions for Azure: https://github.com/Azure/actions
-# More info on Python, GitHub Actions, and Azure Functions: https://aka.ms/python-webapps-actions
-
 name: Build and deploy Python project to Azure Function App - dps-bot-func
 
 on:
@@ -41,9 +37,9 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_5226F82D919949A8B6A8D303B4CF5BB6 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_7A0807EEBE494042B8A30C1D181A4A59 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_B7AC6056F04C4FEFAC7267C5FE14B570 }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_125405C68EB24100AF57E84322A93597 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_697FA4D6394448D79AB78D39F7B92867 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_E68F8099C35E49D49A9614FD3420FC82 }}
 
       - name: 'Deploy to Azure Functions'
         uses: Azure/functions-action@v1
