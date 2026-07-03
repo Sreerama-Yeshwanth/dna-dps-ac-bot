@@ -7,4 +7,5 @@ __pycache__/
 .python_packages/
 deploy.zip
 release.zip
+requirements.txt
 teams-manifest/dist/
