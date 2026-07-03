@@ -1,3 +1,4 @@
+[project]
 name = "dna-dps-ac-bot"
 version = "0.1.0"
 description = "Microsoft Teams bot for automating DPS access requests"
