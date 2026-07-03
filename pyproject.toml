@@ -1,0 +1,15 @@
+name = "dna-dps-ac-bot"
+version = "0.1.0"
+description = "Microsoft Teams bot for automating DPS access requests"
+requires-python = ">=3.11"
+dependencies = [
+    "aiohttp==3.9.5",
+    "azure-functions==1.21.3",
+    "botbuilder-core==4.14.5",
+    "botbuilder-schema==4.14.5",
+    "botframework-connector==4.14.5",
+    "requests==2.32.3",
+]
+
+[tool.uv]
+package = false
