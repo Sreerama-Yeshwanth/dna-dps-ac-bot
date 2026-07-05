@@ -6,7 +6,11 @@ ACCESS_CHOICES = [{"title": "Read", "value": "Read"}, {"title": "Write", "value"
 
 
 def _row_summary(row: dict) -> str:
-    target = f"{row['catalog']}.{row['schema']}" + (f".{row['table']}" if row.get("table") else "")
+    target = (
+        row["catalog"]
+        + (f".{row['schema']}" if row.get("schema") else "")
+        + (f".{row['table']}" if row.get("table") else "")
+    )
     return f"{row['workspace'] or 'Not provided'} / {target} ({row['access']})"
 
 
@@ -14,8 +18,17 @@ def build_request_card(rows: list[dict] | None = None) -> dict:
     rows = rows or []
     summary = (
         [
-            {"type": "TextBlock", "text": "Requests added so far:", "weight": "Bolder", "wrap": True},
-            {"type": "TextBlock", "text": "\n".join(f"- {_row_summary(row)}" for row in rows), "wrap": True},
+            {
+                "type": "TextBlock",
+                "text": "Requests added so far:",
+                "weight": "Bolder",
+                "wrap": True,
+            },
+            {
+                "type": "TextBlock",
+                "text": "\n".join(f"- {_row_summary(row)}" for row in rows),
+                "wrap": True,
+            },
         ]
         if rows
         else []
@@ -27,15 +40,33 @@ def build_request_card(rows: list[dict] | None = None) -> dict:
         "fallbackText": "DPSBot request form.",
         "body": summary
         + [
-            {"type": "TextBlock", "text": "Add a data access request", "weight": "Bolder", "spacing": "Medium", "wrap": True},
+            {
+                "type": "TextBlock",
+                "text": "Add a data access request",
+                "weight": "Bolder",
+                "spacing": "Medium",
+                "wrap": True,
+            },
             {"type": INPUT_TEXT, "id": "workspace", "placeholder": "Workspace"},
             {"type": INPUT_TEXT, "id": "catalog", "placeholder": "Catalog"},
             {"type": INPUT_TEXT, "id": "schema", "placeholder": "Schema"},
             {"type": INPUT_TEXT, "id": "table", "placeholder": "Table"},
-            {"type": "Input.ChoiceSet", "id": "access", "style": "compact", "value": "Write", "choices": ACCESS_CHOICES},
+            {
+                "type": "Input.ChoiceSet",
+                "id": "access",
+                "style": "compact",
+                "value": "Write",
+                "choices": ACCESS_CHOICES,
+            },
             {"type": INPUT_TEXT, "id": "message", "placeholder": "Message", "isMultiline": True},
-            # Hidden inputs still round-trip on Action.Submit, carrying accumulated rows forward statelessly.
-            {"type": INPUT_TEXT, "id": ROWS_FIELD_ID, "value": json.dumps(rows), "isVisible": False},
+            # Hidden inputs still round-trip on Action.Submit, carrying
+            # accumulated rows forward statelessly.
+            {
+                "type": INPUT_TEXT,
+                "id": ROWS_FIELD_ID,
+                "value": json.dumps(rows),
+                "isVisible": False,
+            },
         ],
         "actions": [
             {"type": "Action.Submit", "title": "Add another", "data": {"action": "add_row"}},
