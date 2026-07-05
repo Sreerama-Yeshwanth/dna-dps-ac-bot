@@ -1,0 +1,13 @@
+src = ["src"]
+line-length = 100
+
+[lint]
+select = ["E", "W", "F", "I", "B"]
+ignore = []
+
+[lint.isort]
+known-first-party = ["src"]
+
+[format]
+quote-style = "double"
+indent-style = "space"
